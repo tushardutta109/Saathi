@@ -1,0 +1,17 @@
+{
+  "short_name": "SAATHI",
+  "name": "SAATHI - Senior Companion & Health Assistant",
+  "description": "Friendly digital companion for elderly users. Doctor prescription reader, medicine schedule, footstep counter, emergency hotlines, and voice assistant.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512 192x192 96x96 48x48"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FAF7F2",
+  "theme_color": "#1B4D3E",
+  "display": "standalone",
+  "orientation": "portrait"
+}
