@@ -4032,7 +4032,13 @@ button:active:not(:disabled),
   .btn-search-header,
   .btn-pay-header,
   .btn-doctor-suggest-header {
-    padding: 8px 10px !important;
+    padding: 8px !important;
+  }
+
+  .btn-search-text,
+  .btn-pay-text,
+  .btn-doc-text {
+    display: none !important;
   }
 
   /* Bottom Dock Navigation Clearance */

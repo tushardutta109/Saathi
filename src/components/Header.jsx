@@ -17,6 +17,7 @@ export function Header({
   t 
 }) {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const [langSearchQuery, setLangSearchQuery] = useState('');
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -32,6 +33,11 @@ export function Header({
   };
 
   const currentLangObj = languages.find(l => l.code === lang) || languages[0];
+
+  const filteredLanguages = languages.filter(l => 
+    l.name.toLowerCase().includes(langSearchQuery.toLowerCase()) || 
+    l.code.toLowerCase().includes(langSearchQuery.toLowerCase())
+  );
 
   return (
     <header className="header-container">
@@ -158,7 +164,10 @@ export function Header({
               <>
                 <div 
                   className="notification-backdrop" 
-                  onClick={() => setIsLangMenuOpen(false)} 
+                  onClick={() => {
+                    setIsLangMenuOpen(false);
+                    setLangSearchQuery('');
+                  }} 
                 />
 
                 <div className="lang-dropdown-menu animate-fadeIn">
@@ -166,20 +175,45 @@ export function Header({
                     🌐 {t.languageToggle || 'Select Language'}
                   </div>
 
-                  {languages.map((item) => (
+                  <div style={{ padding: '0 12px 8px 12px' }}>
+                    <input 
+                      type="text" 
+                      placeholder={lang === 'hi' ? 'भाषा खोजें...' : 'Search language...'}
+                      value={langSearchQuery}
+                      onChange={(e) => setLangSearchQuery(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        borderRadius: '8px',
+                        border: '1px solid var(--border-color, #ccc)',
+                        backgroundColor: 'var(--bg-main, #fff)',
+                        color: 'var(--text-main, #333)',
+                        fontSize: '14px',
+                        boxSizing: 'border-box'
+                      }}
+                      autoFocus
+                    />
+                  </div>
+
+                  {filteredLanguages.length > 0 ? filteredLanguages.map((item) => (
                     <button
                       key={item.code}
                       className={`lang-option-btn ${lang === item.code ? 'active' : ''}`}
                       onClick={() => {
                         setLang(item.code);
                         setIsLangMenuOpen(false);
+                        setLangSearchQuery('');
                       }}
                     >
                       <span className="lang-flag">{item.flag}</span>
                       <span className="lang-name-text">{item.name}</span>
                       {lang === item.code && <span className="lang-check-mark">✓</span>}
                     </button>
-                  ))}
+                  )) : (
+                    <div style={{ padding: '12px', textAlign: 'center', fontSize: '14px', color: 'var(--text-muted, #666)' }}>
+                      No language found
+                    </div>
+                  )}
                 </div>
               </>
             )}
