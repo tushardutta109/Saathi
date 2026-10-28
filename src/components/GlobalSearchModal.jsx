@@ -16,12 +16,20 @@ export function GlobalSearchModal({
 
   useEffect(() => {
     if (isOpen) {
+      // Lock background scroll
+      document.body.style.overflow = 'hidden';
       setTimeout(() => {
         if (inputRef.current) inputRef.current.focus();
       }, 100);
     } else {
+      // Unlock background scroll
+      document.body.style.overflow = '';
       setQuery('');
     }
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -88,13 +96,6 @@ export function GlobalSearchModal({
       desc: 'Upload doctor prescription photo & get instant audio instructions',
       action: () => { onClose(); onNavigate('phoneHelp'); },
       keywords: ['prescription', 'पर्चा', 'doctor prescription', 'photo', 'whatsapp', 'upi', 'reader', 'phone', 'help']
-    },
-    { 
-      id: 'vitals', 
-      title: lang === 'hi' ? '👟 मरीज कदम व गतिशीलता काउंटर' : '👟 Patient Footstep Counter', 
-      desc: 'Real-time footstep counter & health activity stats',
-      action: () => { onClose(); onNavigate('vitals'); },
-      keywords: ['step', 'कदम', 'walk', 'चलो', 'footstep', 'vitals', 'health', 'calories', 'distance', 'mobility']
     },
     { 
       id: 'talkToSaathi', 
@@ -196,7 +197,7 @@ export function GlobalSearchModal({
         </div>
 
         {/* Results Body */}
-        <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', paddingRight: '4px' }}>
+        <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', paddingRight: '4px', overscrollBehavior: 'contain', touchAction: 'pan-y' }}>
           {/* 1. Helplines & Emergency Quick Match */}
           {matchedHelplines.length > 0 && (
             <div>

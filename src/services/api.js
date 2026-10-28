@@ -1,44 +1,163 @@
 import { processVoiceQuery } from './voiceAssistantEngine';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+// Fallback initial medicines if backend is offline
+const defaultMedicines = [
+  {
+    id: "med-1",
+    time: "8:00 AM",
+    name: "Medicine A",
+    dosage: "1 tablet",
+    purpose: "Blood Pressure / BP",
+    timingDetail: "After Breakfast",
+    status: "taken",
+    icon: "💊",
+  },
+  {
+    id: "med-2",
+    time: "2:00 PM",
+    name: "Medicine B",
+    dosage: "1 tablet",
+    purpose: "Multivitamin",
+    timingDetail: "After Lunch",
+    status: "upcoming",
+    icon: "💊",
+  },
+  {
+    id: "med-3",
+    time: "9:00 PM",
+    name: "Medicine C",
+    dosage: "1 tablet",
+    purpose: "Diabetes Care",
+    timingDetail: "After Dinner",
+    status: "upcoming",
+    icon: "💊",
+  },
+];
+
 export const api = {
   // GET /api/medicines
   async getMedicines() {
-    await new Promise((res) => setTimeout(res, 300));
-    return [
-      {
-        id: "med-1",
-        time: "8:00 AM",
-        name: "Medicine A",
-        dosage: "1 tablet",
-        purpose: "Blood Pressure / BP",
-        status: "taken", // "taken" | "upcoming" | "missed"
-        icon: "💊",
-      },
-      {
-        id: "med-2",
-        time: "2:00 PM",
-        name: "Medicine B",
-        dosage: "1 tablet",
-        purpose: "Multivitamin",
-        status: "upcoming",
-        icon: "💊",
-      },
-      {
-        id: "med-3",
-        time: "9:00 PM",
-        name: "Medicine C",
-        dosage: "1 tablet",
-        purpose: "Diabetes Care",
-        status: "upcoming",
-        icon: "💊",
-      },
-    ];
+    try {
+      const res = await fetch(`${API_BASE_URL}/medicines`, {
+        signal: AbortSignal.timeout(2500),
+      });
+      if (!res.ok) throw new Error('Network error');
+      const json = await res.json();
+      if (json.success && Array.isArray(json.data)) {
+        return json.data;
+      }
+    } catch (e) {
+      console.warn('Backend unavailable, using local medicine list:', e.message);
+    }
+    return defaultMedicines;
   },
 
-  // POST /api/medicine/taken
+  // PATCH /api/medicines/:id
   async markMedicineTaken(medicineId) {
-    await new Promise((res) => setTimeout(res, 200));
-    return { success: true, medicineId, status: "taken" };
+    try {
+      const res = await fetch(`${API_BASE_URL}/medicines/${medicineId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'taken' }),
+        signal: AbortSignal.timeout(2500),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.data;
+      }
+    } catch (e) {
+      console.warn('Backend unavailable, marked locally:', e.message);
+    }
+    return { id: medicineId, status: 'taken' };
+  },
+
+  // POST /api/medicines
+  async addMedicine(medicine) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/medicines`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(medicine),
+        signal: AbortSignal.timeout(2500),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.data;
+      }
+    } catch (e) {
+      console.warn('Backend unavailable, medicine saved locally:', e.message);
+    }
+    return { ...medicine, id: `med-${Date.now()}` };
+  },
+
+  // POST /api/medicines/bulk
+  async addBulkMedicines(medicinesList) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/medicines/bulk`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ medicines: medicinesList }),
+        signal: AbortSignal.timeout(3000),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.data;
+      }
+    } catch (e) {
+      console.warn('Backend unavailable, bulk medicines added locally:', e.message);
+    }
+    return medicinesList;
+  },
+
+  // DELETE /api/medicines/:id
+  async deleteMedicine(medicineId) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/medicines/${medicineId}`, {
+        method: 'DELETE',
+        signal: AbortSignal.timeout(2500),
+      });
+      if (res.ok) return true;
+    } catch (e) {
+      console.warn('Failed to delete on backend:', e.message);
+    }
+    return true;
+  },
+
+  // GET /api/vitals
+  async getVitals() {
+    try {
+      const res = await fetch(`${API_BASE_URL}/vitals`, {
+        signal: AbortSignal.timeout(2500),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.data;
+      }
+    } catch (e) {
+      console.warn('Backend unavailable for vitals:', e.message);
+    }
+    return { heartRate: 72, bloodPressure: '120/80', spo2: 98, healthScore: 85 };
+  },
+
+  // POST /api/vitals
+  async saveVitals(vitalsData) {
+    try {
+      const res = await fetch(`${API_BASE_URL}/vitals`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(vitalsData),
+        signal: AbortSignal.timeout(2500),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        return json.data;
+      }
+    } catch (e) {
+      console.warn('Backend unavailable for saving vitals:', e.message);
+    }
+    return vitalsData;
   },
 
   // POST /api/ask
@@ -59,7 +178,7 @@ export const api = {
       titleEn: "Doctor Prescription Analysis & Breakdown",
       titleHi: "डॉक्टर के पर्चे (Prescription) का विवरण",
       titleBn: "ডাক্তারের প্রেসক্রিপশন বিশ্লেষণ",
-      titleAs: "ডাক্তৰৰ প্ৰে ক্ৰিপচন বিশ্লেষণ",
+      titleAs: "ডাক্তাৰৰ প্ৰে ক্ৰিপচন বিশ্লেষণ",
       doctorName: "Dr. A. K. Sharma (MD, Senior Cardiologist)",
       clinicName: "Apollo Heart & Health Clinic",
       patientName: "Patient Care Record",

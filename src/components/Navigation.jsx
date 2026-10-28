@@ -5,8 +5,7 @@ export function Navigation({ activeTab, setActiveTab, t }) {
     { id: 'home', label: t.navHome, icon: '🏠' },
     { id: 'hospitals', label: t.navHospitals || 'Best Hospitals', icon: '🏥' },
     { id: 'medicines', label: t.navMedicines, icon: '💊' },
-    { id: 'vitals', label: t.navVitals || 'Footstep Counter', icon: '👟' },
-    { id: 'phoneHelp', label: t.navPhoneHelp, icon: '📱' },
+    { id: 'phoneHelp', label: t.navPhoneHelp, icon: '📋' },
     { id: 'talkToSaathi', label: t.navTalk, icon: '🎙️' },
     { id: 'familyDashboard', label: t.navFamily, icon: '👨‍👩‍👧' },
   ];

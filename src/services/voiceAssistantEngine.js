@@ -8,7 +8,7 @@ export async function processVoiceQuery(queryText, forceLang = null) {
   await new Promise((res) => setTimeout(res, 500));
 
   const text = queryText ? queryText.trim() : '';
-  const detectedLang = forceLang || detectLanguage(text);
+  const detectedLang = detectLanguage(text, forceLang);
   const lowerText = text.toLowerCase();
 
   // Topic & Intent classification
@@ -36,7 +36,8 @@ export async function processVoiceQuery(queryText, forceLang = null) {
   else if (
     lowerText.includes('hello') || lowerText.includes('hi ') || lowerText === 'hi' || lowerText.includes('good morning') ||
     lowerText.includes('good afternoon') || lowerText.includes('good evening') || lowerText.includes('namaste') ||
-    text.includes('नमस्ते') || text.includes('নমস্কার') || text.includes('নমস্কাৰ') || lowerText.includes('pranam')
+    text.includes('नमस्ते') || text.includes('নমস্কার') || text.includes('নমস্কাৰ') || text.includes('হ্যালো') ||
+    lowerText.includes('pranam') || lowerText.includes('hyalo') || lowerText.includes('helo')
   ) {
     topic = 'greetings';
   }
@@ -78,10 +79,10 @@ export async function processVoiceQuery(queryText, forceLang = null) {
   // 8. Family / Caregiver
   else if (
     lowerText.includes('family') || lowerText.includes('son') || lowerText.includes('daughter') ||
-    lowerText.includes('caregiver') || lowerText.includes('ramesh') || lowerText.includes('parivar') ||
-    lowerText.includes('beta') || lowerText.includes('beti') || text.includes('परिवार') || text.includes('बेटा') ||
-    text.includes('बेटी') || text.includes('পরিবার') || text.includes('ছেলে') || text.includes('মেয়ে') ||
-    text.includes('পৰিয়াল') || text.includes('পুত্ৰ')
+    lowerText.includes('caregiver') || lowerText.includes('tushar') || lowerText.includes('ramesh') || lowerText.includes('parivar') ||
+    lowerText.includes('beta') || lowerText.includes('beti') || text.includes('परिवार') || text.includes('बेटा') || text.includes('तुषार') ||
+    text.includes('बेटी') || text.includes('পরিবার') || text.includes('ছেলে') || text.includes('তুষার') || text.includes('মেয়ে') ||
+    text.includes('পৰিয়াল') || text.includes('পুত্ৰ') || text.includes('তুষাৰ')
   ) {
     topic = 'family';
   }
@@ -135,9 +136,9 @@ export async function processVoiceQuery(queryText, forceLang = null) {
     } else if (topic === 'medicine') {
       answer = "You have 5 scheduled medicines today. 4 taken and 1 upcoming at 9:00 PM (Diabetes Care - Metformin 500mg). Please take it with water after dinner.";
     } else if (topic === 'emergency') {
-      answer = "Free Emergency Ambulance 108 is available 24x7. Press Need Help button to call immediately or alert your caregiver Ramesh Sharma.";
+      answer = "Free Emergency Ambulance 108 is available 24x7. Press Need Help button to call immediately or alert your caregiver Tushar Dutta.";
     } else if (topic === 'family') {
-      answer = "Your caregiver Ramesh Sharma is connected. All medicine logs and health status updates are synced to your family dashboard.";
+      answer = "Your caregiver Tushar Dutta is connected. All medicine logs and health status updates are synced to your family dashboard.";
     } else if (topic === 'phone_help') {
       answer = "To send a photo on WhatsApp: 1) Open WhatsApp chat, 2) Tap the camera icon 📷 at the bottom, 3) Select your photo and press the green send button!";
     } else if (topic === 'time_clock') {
@@ -166,9 +167,9 @@ export async function processVoiceQuery(queryText, forceLang = null) {
     } else if (topic === 'medicine') {
       answer = "आपकी आज 5 दवाइयाँ तय हैं। 4 ली जा चुकी हैं और रात 9:00 बजे 1 दवा बाकी है (मधुमेह - मेटफॉर्मिन 500mg)। इसे रात के खाने के बाद लें।";
     } else if (topic === 'emergency') {
-      answer = "मुफ़्त आपातकालीन एम्बुलेंस 108 उपलब्ध है। तुरंत कॉल करने के लिए 'मदद चाहिए' बटन दबाएं या अपने बेटे रमेश शर्मा को फ़ोन करें।";
+      answer = "मुफ़्त आपातकालीन एम्बुलेंस 108 उपलब्ध है। तुरंत कॉल करने के लिए 'मदद चाहिए' बटन दबाएं या अपने बेटे तुषार दत्ता को फ़ोन करें।";
     } else if (topic === 'family') {
-      answer = "आपके बेटे रमेश शर्मा का संपर्क एक्टिव है। आज की सभी दवाइयों का विवरण उनके फैमिली डैशबोर्ड पर सहेजा गया है।";
+      answer = "आपके बेटे तुषार दत्ता का संपर्क एक्टिव है। आज की सभी दवाइयों का विवरण उनके फैमिली डैशबोर्ड पर सहेजा गया है।";
     } else if (topic === 'phone_help') {
       answer = "व्हाट्सएप पर फोटो भेजने के लिए: 1) चैट खोलें, 2) नीचे कैमरा (📷) दबाएं, 3) अपनी फोटो चुनकर हरा बटन दबाएं।";
     } else if (topic === 'time_clock') {
@@ -189,7 +190,7 @@ export async function processVoiceQuery(queryText, forceLang = null) {
     } else if (topic === 'identity_assistant') {
       answer = "আমি সাথী, আপনার স্মার্ট ডিজিটাল অ্যাসিস্ট্যান্ট! ওষুধের রিমাইন্ডার, ডাক্তারির প্রেসক্রিপশন ও দৈনন্দিন কাজে সাহায্য করাই আমার কাজ।";
     } else if (topic === 'greetings') {
-      answer = "নমস্কার! শুভ দিন! আমি আপনার সাহায্যের জন্য উপস্থিত। আজ আপনার শরীর কেমন আছে?";
+      answer = "নমস্কার! হ্যালো! আমি আপনার সাথী। আজ আপনার শরীর কেমন আছে? আমি কীভাবে আপনাকে সাহায্য করতে পারি?";
     } else if (topic === 'how_are_you') {
       answer = "আমি খুব ভালো আছি, জিজ্ঞাসা করার জন্য ধন্যবাদ! আজ আপনার কেমন বোধ হচ্ছে? যেকোনো সাহায্য লাগলে বলবেন।";
     } else if (topic === 'weather') {
@@ -197,9 +198,9 @@ export async function processVoiceQuery(queryText, forceLang = null) {
     } else if (topic === 'medicine') {
       answer = "আপনার আজ ৫টি ওষুধ রয়েছে। ৪টি নেওয়া হয়েছে এবং রাত ৯:০০ টায় ১টি বাকি আছে (মেটফর্মিন ৫০০ মিগ্রা)। রাতের খাবারের পর খাবেন।";
     } else if (topic === 'emergency') {
-      answer = "বিনামূল্যে জরুরি অ্যাম্বুলেন্স ১০৮ ২৪ ঘণ্টা উপলব্ধ। এখনই কল করতে 'সাহায্য চাই' বোতাম টিপুন বা রমেশ শর্মাকে জানান।";
+      answer = "বিনামূল্যে জরুরি অ্যাম্বুলেন্স ১০৮ ২৪ ঘণ্টা উপলব্ধ। এখনই কল করতে 'সাহায্য চাই' বোতাম টিপুন বা তুষার দত্তকে জানান।";
     } else if (topic === 'family') {
-      answer = "আপনার ছেলে রমেশ শর্মার সাথে যোগাযোগ সক্রিয় রয়েছে। আজকের সমস্ত ওষুধের তথ্য তাঁর পরিবার অ্যাকাউন্টে যুক্ত।";
+      answer = "আপনার ছেলে তুষার দত্তের সাথে যোগাযোগ সক্রিয় রয়েছে। আজকের সমস্ত ওষুধের তথ্য তাঁর পরিবার অ্যাকাউন্টে যুক্ত।";
     } else if (topic === 'phone_help') {
       answer = "হোয়াটসঅ্যাপে ছবি পাঠাতে: ১) চ্যাট খুলুন, ২) নিচে ক্যামেরা (📷) আইকন টিপুন, ৩) ছবি বেছে নিয়ে সবুজ বোতাম টিপুন।";
     } else if (topic === 'time_clock') {
@@ -228,9 +229,9 @@ export async function processVoiceQuery(queryText, forceLang = null) {
     } else if (topic === 'medicine') {
       answer = "আপোনাৰ আজি ৫ টা ঔষধ আছে। ৪ টা লোৱা হ'ল আৰু ৰাতি ৯:০০ বজাত ১ টা (মেটফৰমিন ৫০০ মিগ্ৰা) বাকী আছে। ৰাতিৰ আহাৰৰ পিছত খাব।";
     } else if (topic === 'emergency') {
-      answer = "বিনামূলীয়া জৰুৰীকালীন এম্বুলেন্স ১০৮ উপলব্ধ। এতিয়াই কল কৰিবলৈ 'সহায় লাগে' বটম টিপক বা ৰমেশ শৰ্মাক জনাওক।";
+      answer = "বিনামূলীয়া জৰুৰীকালীন এম্বুলেন্স ১০৮ উপলব্ধ। এতিয়াই কল কৰিবলৈ 'সহায় লাগে' বটম টিপক বা তুষাৰ দত্তক জনাওক।";
     } else if (topic === 'family') {
-      answer = "আপোনাৰ পুত্ৰ ৰমেশ শৰ্মাৰ সৈতে সংযোগ হৈ আছে। আজিৰ সকলো ঔষধৰ তথ্য সংৰক্ষিত হ'ল।";
+      answer = "আপোনাৰ পুত্ৰ তুষাৰ দত্তৰ সৈতে সংযোগ হৈ আছে। আজিৰ সকলো ঔষধৰ তথ্য সংৰক্ষিত হ'ল।";
     } else if (topic === 'phone_help') {
       answer = "হোৱাটছএপত ফটো পঠিয়াবলৈ: ১) চেট খোলক, ২) তলত কেমেৰা (📷) আইকন টিপক, ৩) ফটো বাছি লৈ সেউজীয়া বটম টিপক।";
     } else if (topic === 'time_clock') {

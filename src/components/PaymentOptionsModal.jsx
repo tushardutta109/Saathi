@@ -94,6 +94,7 @@ export function PaymentOptionsModal({ isOpen, onClose, lang = 'en', t, onAddNoti
       onClose={handleClose}
       title={lang === 'hi' ? '💳 अस्पताल व इलाज भुगतान के विकल्प' : '💳 Hospital Bill & Appointment Payment Options'}
       icon="💳"
+      size="large"
       cancelText={lang === 'hi' ? 'बंद करें' : 'Close'}
     >
       <div className="payment-modal-container">

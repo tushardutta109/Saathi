@@ -109,6 +109,7 @@ export function DoctorSuggestModal({ isOpen, onClose, lang = 'en', t, onAddNotif
       onClose={onClose}
       title={lang === 'hi' ? '🩺 बीमारी के अनुसार डॉक्टर सुझाव' : (t.doctorSuggestModalTitle || '🩺 Suggest Doctor by Diagnosed Disease')}
       icon="🩺"
+      size="large"
       cancelText={lang === 'hi' ? 'बंद करें' : 'Close'}
     >
       <div className="doctor-suggest-modal-body">

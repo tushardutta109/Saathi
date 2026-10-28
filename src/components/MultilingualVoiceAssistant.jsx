@@ -65,14 +65,14 @@ export function MultilingualVoiceAssistant({ currentLang = 'hi', t, onAddNotific
 
     setAssistantState('processing');
 
-    const result = await processVoiceQuery(inputQueryText);
+    const result = await processVoiceQuery(inputQueryText, currentLang);
 
     setDetectedLang(result.detectedLang);
     setResponseObj(result);
     setAssistantState('speaking');
 
     // Trigger Speech Synthesis in the EXACT detected language
-    voiceService.speak(result.answer, result.detectedLang, () => {
+    voiceService.speak(result.answer, result.detectedLang || currentLang, () => {
       setAssistantState('idle');
     });
 

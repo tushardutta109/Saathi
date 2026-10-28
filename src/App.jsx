@@ -11,7 +11,6 @@ import Medicines from './pages/Medicines';
 import PhoneHelp from './pages/PhoneHelp';
 import TalkToSaathi from './pages/TalkToSaathi';
 import FamilyDashboard from './pages/FamilyDashboard';
-import VitalsMonitor from './pages/VitalsMonitor';
 
 import { translations } from './translations';
 import './styles/app.css';
@@ -20,6 +19,7 @@ import DoctorSuggestModal from './components/DoctorSuggestModal';
 import PaymentOptionsModal from './components/PaymentOptionsModal';
 import GlobalSearchModal from './components/GlobalSearchModal';
 import { initGlobalButtonSoundListener } from './services/soundEffects';
+import { api } from './services/api';
 
 export function App() {
   const [lang, setLangState] = useState(() => {
@@ -94,6 +94,17 @@ export function App() {
       icon: "💊",
     },
   ]);
+
+  // Sync medicines with MongoDB backend on startup
+  useEffect(() => {
+    let isMounted = true;
+    api.getMedicines().then((data) => {
+      if (isMounted && data && data.length > 0) {
+        setMedicines(data);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   // Initial rich notifications
   const [notifications, setNotifications] = useState([
@@ -231,9 +242,9 @@ export function App() {
           border: '3px solid var(--red-alert)',
           color: 'var(--red-alert-hover)',
           padding: '20px',
-          margin: '16px auto 0 auto',
-          maxWidth: '960px',
-          width: '90%',
+          margin: '16px 0 0 0',
+          maxWidth: '100%',
+          width: '100%',
           borderRadius: '20px',
           textAlign: 'center',
           boxShadow: 'var(--shadow-md)',
@@ -256,6 +267,8 @@ export function App() {
             onVoiceCommand={handleVoiceCommand}
             onOpenDoctorSuggest={() => setIsDoctorSuggestOpen(true)}
             onOpenSearch={() => setIsSearchOpen(true)}
+            onOpenPayment={() => setIsPaymentOpen(true)}
+            onAddNotification={handleAddTestNotification}
             lang={lang}
             t={t} 
           />
@@ -284,12 +297,13 @@ export function App() {
             lang={lang} 
             t={t} 
             onAddNotification={addNotification}
-            onAddMedicinesToSchedule={(newMeds) => {
+            onAddMedicinesToSchedule={async (newMeds) => {
               setMedicines((prev) => {
                 const existingIds = new Set(prev.map(m => m.id));
                 const filtered = newMeds.filter(m => !existingIds.has(m.id));
                 return [...prev, ...filtered];
               });
+              await api.addBulkMedicines(newMeds);
             }}
           />
         )}
@@ -302,9 +316,6 @@ export function App() {
           />
         )}
 
-        {activeTab === 'vitals' && (
-          <VitalsMonitor lang={lang} t={t} onAddNotification={addNotification} />
-        )}
 
         {activeTab === 'familyDashboard' && (
           <FamilyDashboard lang={lang} t={t} onAddNotification={addNotification} />
@@ -317,59 +328,55 @@ export function App() {
         t={t} 
       />
 
-      {/* Emergency Confirmation Modal with 24x7 Ambulance Helplines */}
+      {/* Emergency Confirmation Modal — Premium Redesign */}
       <Modal
         isOpen={isEmergencyModalOpen}
-        title={t.emergencyModalTitle || "Emergency Help & Ambulance 🆘"}
+        title={lang === 'hi' ? 'आपातकालीन सहायता' : 'Emergency Help 🆘'}
         icon="🆘"
         onClose={() => setIsEmergencyModalOpen(false)}
-        confirmText={t.emergencyConfirm || "Notify Family Contact"}
-        cancelText={t.emergencyCancel || "Close"}
-        onConfirm={handleConfirmEmergency}
+        size="large"
       >
-        <div className="modal-emergency-container" style={{ textAlign: 'center', marginTop: '10px' }}>
-          <p className="modal-question" style={{ fontSize: '20px', fontWeight: '800', color: 'var(--red-alert)', marginBottom: '16px' }}>
-            {t.emergencyAmbulanceTitle || "24x7 Free Ambulance & Emergency Hotlines:"}
+        <div className="sos-modal-body">
+          <p className="sos-heading-text">
+            {lang === 'hi' ? '24x7 मुफ़्त एम्बुलेंस व आपातकालीन हेल्पलाइन' : '24×7 FREE Ambulance & Emergency Hotlines'}
           </p>
 
-          <div className="emergency-modal-ambulance-grid">
-            <a 
-              href="tel:108" 
-              className="btn-modal-ambulance-call primary"
-              onClick={() => {
-                addNotification({
-                  title: lang === 'hi' ? 'एम्बुलेंस (108) कॉल की गई 🚑' : 'Calling Ambulance (108) 🚑',
-                  message: 'National Free Ambulance Helpline 108',
-                  icon: '🚑',
-                  type: 'emergency'
-                });
-              }}
-            >
-              {t.btnCallAmbulance108 || "Call Free Ambulance (108) 🚑"}
-            </a>
+          {/* 108 Primary Glow Button */}
+          <a href="tel:108" className="sos-btn-108"
+            onClick={() => addNotification({ title: lang === 'hi' ? '🚑 एम्बुलेंस 108 कॉल' : '🚑 Calling Ambulance 108', message: 'National Free Ambulance', icon: '🚑', type: 'emergency' })}>
+            <span>🚑</span>
+            <span>108 — {lang === 'hi' ? 'राष्ट्रीय एम्बुलेंस' : 'National Ambulance'}</span>
+          </a>
 
-            <a 
-              href="tel:112" 
-              className="btn-modal-ambulance-call secondary"
-              onClick={() => {
-                addNotification({
-                  title: lang === 'hi' ? 'आपातकालीन हेल्पलाइन (112) 🚨' : 'Emergency Helpline (112) 🚨',
-                  message: 'National All-in-One Emergency 112',
-                  icon: '🚨',
-                  type: 'emergency'
-                });
-              }}
-            >
-              {t.btnCallEmergency112 || "Call Emergency Helpline (112) 🚨"}
-            </a>
+          {/* 112 Outlined */}
+          <a href="tel:112" className="sos-btn-112"
+            onClick={() => addNotification({ title: lang === 'hi' ? '🚨 आपातकाल 112' : '🚨 Emergency 112', message: 'National Emergency 112', icon: '🚨', type: 'emergency' })}>
+            <span>🚨</span>
+            <span>112 — {lang === 'hi' ? 'पुलिस व आपातकाल' : 'Police & Emergency'}</span>
+          </a>
 
-            <a 
-              href="tel:14567" 
-              className="btn-modal-ambulance-call secondary"
-            >
-              {t.btnCallElderline14567 || "Call Senior Elderline (14567) 👴"}
-            </a>
+          {/* Notify Family */}
+          <div className="sos-family-section">
+            <h4 className="sos-family-title">📞 {lang === 'hi' ? 'परिवार को सूचित करें' : 'Notify My Family'}</h4>
+            <button className="sos-btn-family" onClick={handleConfirmEmergency}>
+              📲 {lang === 'hi' ? 'परिवार को अभी कॉल व मैसेज करें' : 'Call & Message Family Now'}
+            </button>
+            <div className="sos-whatsapp-row">
+              <span>💬</span>
+              <span>{lang === 'hi' ? 'WhatsApp + SMS अलर्ट भी भेजा जाएगा' : 'WhatsApp + SMS alert also sent'}</span>
+            </div>
           </div>
+
+          {/* GPS demo */}
+          <div className="sos-location-card">
+            <span>📍</span>
+            <span>{lang === 'hi' ? 'आपकी लोकेशन शेयर हो रही है...' : 'Sharing your current location...'}</span>
+          </div>
+
+          {/* False alarm cancel */}
+          <button className="sos-cancel-btn" onClick={() => setIsEmergencyModalOpen(false)}>
+            ✕ {lang === 'hi' ? 'गलत अलार्म — रद्द करें' : 'False Alarm — Cancel'}
+          </button>
         </div>
       </Modal>
 

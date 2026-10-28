@@ -45,7 +45,7 @@ export const translations = {
     btnCallAmbulance108: "Call Free Ambulance (108) 🚑",
     btnCallEmergency112: "Call Emergency Hotline (112) 🚨",
     btnCallElderline14567: "Call Senior Helpline (14567) 👴",
-    emergencyConfirm: "Notify Family Contact (Ramesh)",
+    emergencyConfirm: "Notify Family Contact (Tushar)",
     emergencyCancel: "Close / Back",
     emergencySentTitle: "Family Notified!",
     emergencySentMsg: "We have sent an urgent alert message and called your primary family contact.",
@@ -149,8 +149,8 @@ export const translations = {
     help2Time: "Yesterday, 4:15 PM",
     help2Status: "Completed (3 steps)",
     
-    familyContactName: "Ramesh Sharma (Son)",
-    familyContactPhone: "+91 98765 43210",
+    familyContactName: "Tushar Dutta",
+    familyContactPhone: "+91 6003246031",
     btnCallNow: "Call Now 📞",
     btnSendReminder: "Send Voice Note 🎙️",
     
@@ -216,7 +216,7 @@ export const translations = {
     btnCallAmbulance108: "मुफ़्त एम्बुलेंस कॉल करें (108) 🚑",
     btnCallEmergency112: "आपातकालीन हेल्पलाइन कॉल करें (112) 🚨",
     btnCallElderline14567: "वरिष्ठ नागरिक हेल्पलाइन (14567) 👴",
-    emergencyConfirm: "परिवार (रमेश) को सूचित करें",
+    emergencyConfirm: "परिवार (तुषार) को सूचित करें",
     emergencyCancel: "बंद करें / वापस",
     emergencySentTitle: "परिवार को संदेश भेजा गया!",
     emergencySentMsg: "हमने आपके मुख्य पारिवारिक संपर्क को एक जरूरी अलर्ट संदेश भेज दिया है।",
@@ -320,8 +320,8 @@ export const translations = {
     help2Time: "कल, 4:15 बजे",
     help2Status: "पूरा हुआ (3 स्टेप्स)",
     
-    familyContactName: "रमेश शर्मा (बेटा)",
-    familyContactPhone: "+91 98765 43210",
+    familyContactName: "तुषार दत्ता",
+    familyContactPhone: "+91 6003246031",
     btnCallNow: "कॉल करें 📞",
     btnSendReminder: "वॉयस नोट भेजें 🎙️",
     
@@ -387,7 +387,7 @@ export const translations = {
     btnCallAmbulance108: "বিনামূল্যে অ্যাম্বুলেন্স ডাকুন (108) 🚑",
     btnCallEmergency112: "জরুরি হেল্পলাইনে কল করুন (112) 🚨",
     btnCallElderline14567: "বয়স্ক হেল্পলাইন (14567) 👴",
-    emergencyConfirm: "পরিবারকে (রমেশ) জানান",
+    emergencyConfirm: "পরিবারকে (তুষার) জানান",
     emergencyCancel: "বন্ধ করুন / পিছন",
     emergencySentTitle: "পরিবারকে জানানো হয়েছে!",
     emergencySentMsg: "আমরা আপনার প্রধান পারিবারিক পরিচিতিকে একটি জরুরি বার্তা পাঠিয়েছি।",
@@ -491,8 +491,8 @@ export const translations = {
     help2Time: "গতকাল, বিকেল ৪:১৫",
     help2Status: "সম্পন্ন (৩টি ধাপ)",
     
-    familyContactName: "রমেশ শর্মা (ছেলে)",
-    familyContactPhone: "+91 98765 43210",
+    familyContactName: "তুষার দত্ত",
+    familyContactPhone: "+91 6003246031",
     btnCallNow: "এখনই কল করুন 📞",
     btnSendReminder: "ভয়েস নোট পাঠান 🎙️",
     
@@ -559,7 +559,7 @@ export const translations = {
     btnCallAmbulance108: "বিনামূলীয়া এম্বুলেন্স কাল কৰক (108) 🚑",
     btnCallEmergency112: "জৰুৰীকালীন হেল্পলাইন কাল কৰক (112) 🚨",
     btnCallElderline14567: "জ্যেষ্ঠ নাগৰিক হেল্পলাইন (14567) 👴",
-    emergencyConfirm: "পৰিয়ালক (ৰমেশ) জনাওক",
+    emergencyConfirm: "পৰিয়ালক (তুষাৰ) জনাওক",
     emergencyCancel: "বন্ধ কৰক / পিছলৈ",
     emergencySentTitle: "পৰিয়াললৈ বাৰ্তা প্ৰেৰণ কৰা হ'ল!",
     emergencySentMsg: "আমি আপোনাৰ মুখ্য পাৰিবাৰিক সম্পৰ্কলৈ এটা জৰুৰী সতৰ্কতা বাৰ্তা প্ৰেৰণ কৰিছোঁ।",
@@ -663,8 +663,8 @@ export const translations = {
     help2Time: "গতকালি, বিয়লি ৪:১৫",
     help2Status: "সম্পূৰ্ণ হ'ল (৩ টা খোজ)",
     
-    familyContactName: "ৰমেশ শৰ্মা (পুত্ৰ)",
-    familyContactPhone: "+91 98765 43210",
+    familyContactName: "তুষাৰ দত্ত",
+    familyContactPhone: "+91 6003246031",
     btnCallNow: "এতিয়াই কল কৰক 📞",
     btnSendReminder: "ভয়েছ নোট পঠিয়াওক 🎙️",
     

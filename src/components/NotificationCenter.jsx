@@ -43,10 +43,44 @@ export function NotificationCenter({
         onClick={() => setIsOpen(!isOpen)}
         aria-label={`Notifications - ${unreadCount} unread`}
         title={t.notificationsTitle || 'Notifications'}
+        style={{
+          position: 'relative',
+          backgroundColor: 'rgba(255, 255, 255, 0.03)',
+          border: '1px solid #1e293b',
+          color: '#94a3b8',
+          width: '34px',
+          height: '34px',
+          borderRadius: '8px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          padding: 0,
+          transition: 'all 0.2s ease'
+        }}
       >
-        <span style={{ fontSize: '24px' }}>🔔</span>
+        <span style={{ fontSize: '15px' }}>🔔</span>
         {unreadCount > 0 && (
-          <span className="notification-badge-count">
+          <span 
+            className="notification-badge-count"
+            style={{
+              position: 'absolute',
+              top: '-4px',
+              right: '-4px',
+              backgroundColor: '#ef4444',
+              color: '#ffffff',
+              fontSize: '10px',
+              fontWeight: '800',
+              minWidth: '16px',
+              height: '16px',
+              borderRadius: '9999px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0 2px',
+              border: '2px solid #080e1a'
+            }}
+          >
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}

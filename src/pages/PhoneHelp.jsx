@@ -364,7 +364,7 @@ const SAMPLE_PRESCRIPTION_SCREEN = `data:image/svg+xml;utf8,<svg xmlns="http://w
 const SAMPLE_WHATSAPP_SCREEN = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="700" viewBox="0 0 400 700" style="background:%230b141a;">
   <rect width="400" height="60" fill="%231f2c34"/>
   <circle cx="45" cy="30" r="18" fill="%2300a884"/>
-  <text x="75" y="35" fill="white" font-family="sans-serif" font-size="18" font-weight="bold">Ramesh (Son)</text>
+  <text x="75" y="35" fill="white" font-family="sans-serif" font-size="18" font-weight="bold">Tushar Dutta</text>
   <rect x="295" y="15" width="40" height="30" rx="6" fill="%2325D366"/>
   <polygon points="310,22 325,30 310,38" fill="white"/>
   <rect x="20" y="90" width="240" height="60" rx="12" fill="%23202c33"/>
