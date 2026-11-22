@@ -24,14 +24,14 @@ export function DoctorSuggestModal({ isOpen, onClose, lang = 'en', t, onAddNotif
     const descEn = (item.descEn || '').toLowerCase();
     const descHi = (item.descHi || '').toLowerCase();
     return nameEn.includes(term) || nameHi.includes(term) || nameBn.includes(term) || nameAs.includes(term) ||
-           specEn.includes(term) || specHi.includes(term) || specBn.includes(term) || specAs.includes(term) ||
-           descEn.includes(term) || descHi.includes(term);
+      specEn.includes(term) || specHi.includes(term) || specBn.includes(term) || specAs.includes(term) ||
+      descEn.includes(term) || descHi.includes(term);
   });
 
   // Ensure selected disease dynamically matches filtered search results
   const selectedDisease = filteredDiseases.find(item => item.id === selectedDiseaseId) || filteredDiseases[0] || null;
 
-  // H elper for localized strings
+  // H ==elper for localized strings
   const getLocalizedName = (item) => {
     if (lang === 'hi') return item.diseaseNameHi;
     if (lang === 'bn') return item.diseaseNameBn;
@@ -96,8 +96,8 @@ export function DoctorSuggestModal({ isOpen, onClose, lang = 'en', t, onAddNotif
         const descEn = (item.descEn || '').toLowerCase();
         const descHi = (item.descHi || '').toLowerCase();
         return nameEn.includes(term) || nameHi.includes(term) || nameBn.includes(term) || nameAs.includes(term) ||
-               specEn.includes(term) || specHi.includes(term) || specBn.includes(term) || specAs.includes(term) ||
-               descEn.includes(term) || descHi.includes(term);
+          specEn.includes(term) || specHi.includes(term) || specBn.includes(term) || specAs.includes(term) ||
+          descEn.includes(term) || descHi.includes(term);
       });
       if (match) setSelectedDiseaseId(match.id);
     }
@@ -124,10 +124,10 @@ export function DoctorSuggestModal({ isOpen, onClose, lang = 'en', t, onAddNotif
                 lang === 'hi'
                   ? 'बीमारी या लक्षण खोजें (उदा. हृदय, शुगर, घुटने का दर्द)...'
                   : lang === 'bn'
-                  ? 'রোগ বা লক্ষণ খুঁজুন (যেমন হৃদরোগ, সুগার, হাঁটু ব্যথা)...'
-                  : lang === 'as'
-                  ? 'ৰোগ বা লক্ষণ সন্ধান কৰক (যেনে হৃদৰোগ, চুগাৰ, আঁঠুৰ বিষ)...'
-                  : 'Search disease, symptom or specialist (e.g. Heart, BP, Eye)...'
+                    ? 'রোগ বা লক্ষণ খুঁজুন (যেমন হৃদরোগ, সুগার, হাঁটু ব্যথা)...'
+                    : lang === 'as'
+                      ? 'ৰোগ বা লক্ষণ সন্ধান কৰক (যেনে হৃদৰোগ, চুগাৰ, আঁঠুৰ বিষ)...'
+                      : 'Search disease, symptom or specialist (e.g. Heart, BP, Eye)...'
               }
               value={searchTerm}
               onChange={(e) => {
@@ -136,9 +136,9 @@ export function DoctorSuggestModal({ isOpen, onClose, lang = 'en', t, onAddNotif
                 if (term) {
                   const match = doctorSuggestionsData.find(item => {
                     return item.diseaseNameEn.toLowerCase().includes(term) ||
-                           item.diseaseNameHi.toLowerCase().includes(term) ||
-                           item.specialistTitleEn.toLowerCase().includes(term) ||
-                           item.specialistTitleHi.toLowerCase().includes(term);
+                      item.diseaseNameHi.toLowerCase().includes(term) ||
+                      item.specialistTitleEn.toLowerCase().includes(term) ||
+                      item.specialistTitleHi.toLowerCase().includes(term);
                   });
                   if (match) setSelectedDiseaseId(match.id);
                 }

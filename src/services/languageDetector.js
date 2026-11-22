@@ -49,10 +49,23 @@ export function detectLanguage(text, preferredLang = null) {
     return 'bn';
   }
 
+  // If user explicitly chose a language, honor it for shared scripts or Latin text
+  if (preferredLang && ['as', 'bn', 'hi', 'en'].includes(preferredLang)) {
+    // If Eastern Nagari script is detected, respect if user specifically chose Assamese or Bengali
+    if (hasEasternNagari) {
+      if (preferredLang === 'as' && (hasAssameseChars || isAssameseKeyword || !hasBengaliChars)) {
+        return 'as';
+      }
+      if (preferredLang === 'bn') {
+        return 'bn';
+      }
+    }
+  }
+
   // 3. Romanized / Hinglish detection
   const hinglishKeywords = [
     'namaste', 'kaisa', 'kya', 'dawai', 'mausam', 'aaj', 'kaise', 'batao', 
-    'chahiye', 'sharma', 'ramesh', 'tushar', 'kahan', 'doctor', 'sunao', 'hoga'
+    'chahiye', 'sharma', 'ramesh', 'tushar', 'kahan', 'sunao', 'hoga'
   ];
   if (hinglishKeywords.some(kw => lowerText.includes(kw))) {
     return 'hi';
@@ -61,10 +74,10 @@ export function detectLanguage(text, preferredLang = null) {
   // 4. Romanized Bengali keywords
   const bengaliPhonetic = ['kemon', 'achen', 'bhalo', 'aajker', 'abohawa', 'osudh', 'daktar', 'dhonnobad', 'hyalo'];
   if (bengaliPhonetic.some(kw => lowerText.includes(kw))) {
-    return 'bn';
+    return preferredLang === 'as' ? 'as' : 'bn';
   }
 
-  // 5. Default
+  // 5. Default to user's preferred language if set
   return preferredLang || 'en';
 }
 

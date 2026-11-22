@@ -58,12 +58,12 @@ export function ScreenshotUploader({ onSelectImage, t }) {
       const reader = new FileReader();
       reader.onload = (event) => {
         // Automatically check file name or send for prescription/screen analysis
-        const isPrescriptionFile = file.name.toLowerCase().includes('presc') || 
-          file.name.toLowerCase().includes('doctor') || 
+        const isPrescriptionFile = file.name.toLowerCase().includes('presc') ||
+          file.name.toLowerCase().includes('doctor') ||
           file.name.toLowerCase().includes('parcha') ||
           file.name.toLowerCase().includes('medicine');
 
-        onSelectImage(event.target.result, isPrescriptionFile ? 'prescription' : 'general');
+        onSelectImage(event.target.result, 'prescription');
       };
       reader.readAsDataURL(file);
     }
@@ -75,16 +75,16 @@ export function ScreenshotUploader({ onSelectImage, t }) {
       <h3 className="upload-title">{t.uploadBoxTitle || "Upload Screenshot or Prescription"}</h3>
       <p className="upload-desc">{t.uploadBoxSub || "Upload a photo of your phone screen or Doctor Prescription. SAATHI will analyze it for you!"}</p>
 
-      <input 
-        type="file" 
+      <input
+        type="file"
         ref={fileInputRef}
-        onChange={handleFileChange} 
+        onChange={handleFileChange}
         accept="image/*"
         style={{ display: 'none' }}
       />
 
       <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
-        <button 
+        <button
           className="btn btn-primary"
           onClick={() => fileInputRef.current && fileInputRef.current.click()}
           aria-label="Upload Photo or Prescription"
@@ -99,21 +99,21 @@ export function ScreenshotUploader({ onSelectImage, t }) {
           {t.usePresetTitle || "Or try a sample photo:"}
         </p>
         <div className="preset-buttons-group">
-          <button 
+          <button
             className="preset-btn prescription-highlight-btn"
             onClick={() => onSelectImage(SAMPLE_PRESCRIPTION_SCREEN, 'prescription')}
           >
             📄 {t.presetPrescription || "Doctor Prescription (डॉक्टर का पर्चा)"}
           </button>
 
-          <button 
+          <button
             className="preset-btn"
             onClick={() => onSelectImage(SAMPLE_WHATSAPP_SCREEN, 'whatsapp')}
           >
             📱 {t.presetWhatsapp || "WhatsApp Screen"}
           </button>
 
-          <button 
+          <button
             className="preset-btn"
             onClick={() => onSelectImage(SAMPLE_UPI_SCREEN, 'upi')}
           >

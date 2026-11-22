@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import VoiceButton from '../components/VoiceButton';
 import { api } from '../services/api';
 import { voiceService } from '../services/voiceService';
+import { translations } from '../translations';
 
 const LANGS = [
   { code: 'hi', label: 'हिन्दी' },
@@ -29,6 +30,13 @@ export function TalkToSaathi({ lang: propLang, initialQuery, t }) {
   }
 
   useEffect(() => {
+    if (propLang && propLang !== activeLang) {
+      setActiveLang(propLang);
+      setMessages([{ id: Date.now(), sender: 'saathi', text: getInitialGreeting(propLang) }]);
+    }
+  }, [propLang]);
+
+  useEffect(() => {
     if (initialQuery) handleUserQuery(initialQuery);
   }, [initialQuery]);
 
@@ -36,7 +44,16 @@ export function TalkToSaathi({ lang: propLang, initialQuery, t }) {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
+  const activeT = translations[activeLang] || t;
+
   const speakText = (text) => voiceService.speak(text, activeLang);
+
+  const handleSelectLang = (code) => {
+    setActiveLang(code);
+    const greeting = getInitialGreeting(code);
+    setMessages([{ id: Date.now(), sender: 'saathi', text: greeting }]);
+    voiceService.speak(greeting, code);
+  };
 
   const handleDeleteMessage = (id) => {
     voiceService.stop();
@@ -82,7 +99,7 @@ export function TalkToSaathi({ lang: propLang, initialQuery, t }) {
             <button
               key={l.code}
               className={`talk-lang-chip ${activeLang === l.code ? 'talk-lang-chip-active' : ''}`}
-              onClick={() => setActiveLang(l.code)}
+              onClick={() => handleSelectLang(l.code)}
             >
               {l.label}
             </button>
@@ -92,9 +109,9 @@ export function TalkToSaathi({ lang: propLang, initialQuery, t }) {
 
       {/* ── Sample Question Chips ── */}
       <div className="preset-buttons-group" style={{ marginBottom: '24px', justifyContent: 'center' }}>
-        <button className="preset-btn" onClick={() => handleUserQuery(t.q1)}>💬 "{t.q1}"</button>
-        <button className="preset-btn" onClick={() => handleUserQuery(t.q2)}>⏰ "{t.q2}"</button>
-        <button className="preset-btn" onClick={() => handleUserQuery(t.q3)}>📞 "{t.q3}"</button>
+        <button className="preset-btn" onClick={() => handleUserQuery(activeT.q1)}>💬 "{activeT.q1}"</button>
+        <button className="preset-btn" onClick={() => handleUserQuery(activeT.q2)}>⏰ "{activeT.q2}"</button>
+        <button className="preset-btn" onClick={() => handleUserQuery(activeT.q3)}>📞 "{activeT.q3}"</button>
       </div>
 
       {/* ── Chat History ── */}

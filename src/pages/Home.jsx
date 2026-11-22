@@ -77,68 +77,11 @@ export function Home({
     <div className="new-dashboard-container animate-fadeIn">
 
       {/* ══════════════════════════════════════════════════════════════
-          ROW 1: TOP 3 METRICS & ACTIONS CARDS
+          ROW 1: TOP ACTIONS & FAMILY OVERVIEW CARDS
       ══════════════════════════════════════════════════════════════ */}
       <section className="dashboard-top-row">
 
-        {/* ── CARD 1: Personal Health Metric ── */}
-        <div className="dash-card metric-card">
-          <h3 className="dash-card-title">Personal Health Metric</h3>
-          
-          <div className="metric-content">
-            {/* Circular Gauge */}
-            <div className="metric-gauge-wrapper">
-              <svg className="metric-gauge-svg" viewBox="0 0 110 110">
-                <circle
-                  className="metric-gauge-bg"
-                  cx="55"
-                  cy="55"
-                  r="45"
-                  strokeWidth="8"
-                />
-                <circle
-                  className="metric-gauge-fill"
-                  cx="55"
-                  cy="55"
-                  r="45"
-                  strokeWidth="8"
-                  strokeDasharray="283"
-                  strokeDashoffset="42"
-                />
-              </svg>
-              <div className="metric-gauge-text">
-                <span className="metric-gauge-percent">85%</span>
-                <span className="metric-gauge-label">Healthy</span>
-              </div>
-            </div>
-
-            {/* Right side stats + ECG Pulse line */}
-            <div className="metric-stats-column">
-              <div className="metric-stat-item">
-                <span className="metric-stat-text">HR: 72 bpm</span>
-              </div>
-              <div className="metric-stat-item">
-                <span className="metric-stat-text">BP: 120/80</span>
-              </div>
-
-              {/* Glowing Heartbeat Waveform */}
-              <div className="metric-wave-container">
-                <svg className="metric-wave-svg" viewBox="0 0 140 40" fill="none">
-                  <path
-                    d="M 5 24 Q 25 24 35 24 Q 45 22 55 12 Q 65 34 75 14 Q 85 24 95 24 Q 115 24 135 24"
-                    stroke="#10B981"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <circle cx="75" cy="14" r="4.5" fill="#34D399" className="pulse-dot" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── CARD 2: Family Overview ── */}
+        {/* ── CARD 1: Family Overview ── */}
         <div className="dash-card family-overview-card">
           <h3 className="dash-card-title">Family Overview</h3>
           
@@ -206,27 +149,8 @@ export function Home({
 
       </section>
 
-
       {/* ══════════════════════════════════════════════════════════════
-          ROW 2: CENTRAL GLOWING "TALK TO SAATHI" BUTTON
-      ══════════════════════════════════════════════════════════════ */}
-      <section className="dashboard-mic-center">
-        <button
-          className="talk-saathi-pill-btn"
-          onClick={() => {
-            onVoiceCommand?.('talk');
-            onNavigate('talkToSaathi');
-          }}
-          aria-label="Talk to Saathi Voice Assistant"
-        >
-          <span className="talk-saathi-mic-icon">🎙️</span>
-          <span className="talk-saathi-text">TALK TO SAATHI</span>
-        </button>
-      </section>
-
-
-      {/* ══════════════════════════════════════════════════════════════
-          ROW 3: 5 BOTTOM FEATURE CARDS
+          ROW 2: 5 BOTTOM FEATURE CARDS
       ══════════════════════════════════════════════════════════════ */}
       <section className="dashboard-bottom-grid">
 
@@ -481,35 +405,6 @@ export function Home({
         </div>
 
       </section>
-
-      {/* ══════════════════════════════════════════════════════════════
-          BOTTOM BAR: SECONDARY TALK TO SAATHI + FLOATING HELP
-      ══════════════════════════════════════════════════════════════ */}
-      <section className="dashboard-mic-center bottom-mic">
-        <button
-          className="talk-saathi-pill-btn"
-          onClick={() => {
-            onVoiceCommand?.('talk');
-            onNavigate('talkToSaathi');
-          }}
-          aria-label="Talk to Saathi Voice Assistant"
-        >
-          <span className="talk-saathi-mic-icon">🎙️</span>
-          <span className="talk-saathi-text">TALK TO SAATHI</span>
-        </button>
-      </section>
-
-      {/* Floating Talk to Us Pill Badge */}
-      <div 
-        className="talk-to-us-floating-bubble"
-        onClick={() => onNavigate('talkToSaathi')}
-        role="button"
-        tabIndex={0}
-        title="Chat with Saathi Care Assistant"
-      >
-        <span>💬</span>
-        <span>Talk to Us</span>
-      </div>
 
     </div>
   );

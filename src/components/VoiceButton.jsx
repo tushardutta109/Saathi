@@ -13,7 +13,7 @@ export function VoiceButton({ onVoiceInput, isListening: externalListening, lang
 
       let speechLang = 'hi-IN';
       if (lang === 'bn') speechLang = 'bn-IN';
-      else if (lang === 'as') speechLang = 'as-IN';
+      else if (lang === 'as') speechLang = 'bn-IN'; // Google Speech Recognition uses bn-IN for Eastern Nagari
       else if (lang === 'en') speechLang = 'en-IN';
       rec.lang = speechLang;
 
